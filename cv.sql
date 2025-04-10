@@ -1,7 +1,23 @@
 CREATE DATABASE IF NOT EXISTS cv;
 USE cv;
 
+-- Table structure for table login
+CREATE TABLE IF NOT EXISTS login (
+  id INT(11) NOT NULL AUTO_INCREMENT,
+  username VARCHAR(20) UNIQUE NOT NULL,
+  email VARCHAR(50) NOT NULL,
+  password VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- Dumping data for table login
+-- INSERT INTO login (id, username, email, password) VALUES
+-- (1, 'raihan', 'raihan35-1542@diu.edu.bd', '1055'),
+-- (2, 'raihan1542', 'mahmudrony95@gmail.com', '1542'),
+-- (3, 'rony', 'mahmudrony95@gmail.com', '105500');
 -- Table structure for table cv_info
+
+
 CREATE TABLE IF NOT EXISTS cv_info (
   id INT(11) NOT NULL AUTO_INCREMENT,
   name VARCHAR(150) NOT NULL,
@@ -26,7 +42,8 @@ CREATE TABLE IF NOT EXISTS cv_info (
   sclpyear DATE NOT NULL,
   image VARCHAR(100) NOT NULL,
   username VARCHAR(20) NOT NULL,
-  PRIMARY KEY (id)
+  PRIMARY KEY (id, username),
+  FOREIGN KEY (username) REFERENCES login(username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Dumping data for table cv_info
@@ -35,17 +52,3 @@ CREATE TABLE IF NOT EXISTS cv_info (
 -- (2, 'Rony Mahmud', 'Sylhet', '01743527252', 'mahmudrony95@gmail.com', '1996-12-15', 'male', 'English', 'C, php', '', '0000-00-00', '', 'DIU', '3.25', '2019-12-31', 'Brindaban Govt. Collage', '4.00', '2015-04-14', 'Rajar Bazar Govt. High School', '5.00', '2013-03-14', 'images/my2.jpg', 'raihan1542'),
 -- (3, 'Rony', 'Sylhet', '017', 'mahmudrony95@gmail.com', '1995-12-18', 'male', 'English', 'C#', '', '0000-00-00', '', '', '', '0000-00-00', '', '', '0000-00-00', '', '', '0000-00-00', 'images/', 'rony');
 
--- Table structure for table login
-CREATE TABLE IF NOT EXISTS login (
-  id INT(11) NOT NULL AUTO_INCREMENT,
-  username VARCHAR(20) NOT NULL,
-  email VARCHAR(50) NOT NULL,
-  password VARCHAR(255) NOT NULL,
-  PRIMARY KEY (id)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
--- Dumping data for table login
--- INSERT INTO login (id, username, email, password) VALUES
--- (1, 'raihan', 'raihan35-1542@diu.edu.bd', '1055'),
--- (2, 'raihan1542', 'mahmudrony95@gmail.com', '1542'),
--- (3, 'rony', 'mahmudrony95@gmail.com', '105500');

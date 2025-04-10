@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +28,7 @@
                 <li><a href="?page=template">Templates</a></li>
                 <li><a href="?page=contact">Contact</a></li>
                 <?php
-                    if (!isset($_SESSION["role"])) {
+                    if (!isset($_SESSION["username"])) {
                         echo '<li><a href="?page=log-in">Log in</a></li>
                             <li><a href="?page=sign-up">Sign up</a></li>';
                     }
@@ -38,17 +41,21 @@
         </nav>
     </header>        
     <main>
-    <?php
-                $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-                $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out'];
-                if (in_array($page, $allowed_pages)) {
-                    
-                        include("$page.php");
-                } 
-                else {
-                    include("404.html"); 
+        <?php
+            $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+            $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out', 'login_db'];
+            if (in_array($page, $allowed_pages)) {
+                if ($page == 'sign-out') {
+                    session_destroy();
+                    unset($_SESSION['username']);
+                    header("Location: ?page=home");
                 }
-            ?>
+                include("$page.php");
+            } 
+            else {
+                include("404.html"); 
+            }
+        ?>
     </main>
     <footer>
         <div class="footer-container">

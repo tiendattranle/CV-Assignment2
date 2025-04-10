@@ -1,23 +1,42 @@
-<!-- <?php
-session_start();
-include_once("login_db.php");
+<?php
 
 // Redirect to index if the user is already logged in
 if (isset($_SESSION['username'])) {
-    header("Location: ?");
+    header("Location: ?page=home");
     exit();
 }
-
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+	include_once("config.php");
+	$query = "SELECT password FROM login WHERE username = '$_POST[username]'";
+	$password = trim($_POST["password"]);
+	$result = mysqli_query($conn, $query);
+	$count = mysqli_num_rows($result);
+	
+	if($count == 1){
+		$hashed_password = mysqli_fetch_assoc($result)['password'];
+		if (password_verify($password, $hashed_password)) {
+			unset($_SESSION['errorMessage']);
+			$_SESSION['username'] = "$_POST[username]";
+			mysqli_close($conn);
+		    header("Location: ?page=home");
+        }
+	}
+	else{
+		$_SESSION['errorMessage'] = 1;
+		header("Location: ?page=log-in");
+	}
+	mysqli_close($conn);
+}
 // Clear error message after displaying it
 $errorMessage = '';
 if (isset($_SESSION['errorMessage'])) {
     $errorMessage = $_SESSION['errorMessage'];
     unset($_SESSION['errorMessage']);
 }
-?> -->
+?>
 <link rel="stylesheet" href="css/log-in.css">
 <div class="log-in-container">
-    <form action="login_db.php" method="post" class="login-form">
+    <form action="" method="post" class="login-form">
         <div class="login-box">
             <img style="width: 30%; margin-bottom: auto; " src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" alt="Avatar">
             <h1>Welcome Back Babyboo</h1>
