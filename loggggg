@@ -1,0 +1,63 @@
+<?php
+include_once("login_db.php");
+
+if(isset($_SESSION['username'])){
+	header("Location:home.php");
+}
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="device-width initial-scale=1.0">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div id="signupbox">
+        <h1>Login</h1>
+        <form action = "login_db.php" method="POST">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <br>
+            <div id="login-option">
+                <a href="register.php">Create account</a>
+                <a href="">Forgot password?</a>
+            </div>
+            <br>
+            <a href=""><img src="images/google-logo.png"></a>
+            <br>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+<html></html>
+
+
+
+
+<?php
+    //mysqli_connect('localhost', 'root', 'password', 'tenDB');
+    //mysqli_set_charset($connect, "utf8");
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="device-width initial-scale=1.0">
+    <link rel="stylesheet" href="css/register.css">
+</head>
+<body>
+    <div id="signupbox">
+        <h1>Sign up</h1>
+        <form action = "" method="POST">
+            <input type="text" id="fullname" placeholder="Full Name">
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <input type="password" id="cfmpassword" placeholder="Confirm Password">
+            <br>
+            <div id="signup-option"> 
+                <a href="login.php">Already have account?</a>
+            </div>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+<html></html>

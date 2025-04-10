@@ -1,0 +1,165 @@
+/* template.css - Styling for My CV Template */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f5f5f5;
+    padding-top: 50px; /* Adjust the top padding as needed */
+}
+
+#header {
+    background-color: #2c3e50;
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+
+.options {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 10px 15px;
+    display: block;
+    transition: background 0.3s;
+}
+
+.options:hover {
+    background-color: #34495e;
+    border-radius: 5px;
+}
+
+#sub_bar {
+    display: none;
+    position: absolute;
+    background-color: #34495e;
+    top: 100%;
+    left: 0;
+    min-width: 150px;
+    z-index: 999;
+    border-radius: 0 0 6px 6px;
+    overflow: hidden;
+}
+
+.lists:hover #sub_bar {
+    display: block;
+}
+
+.sub_lists a {
+    color: white;
+    padding: 10px;
+    text-decoration: none;
+    display: block;
+    transition: background 0.2s ease-in-out;
+}
+
+.sub_lists a:hover {
+    background-color: #1abc9c;
+}
+
+#container {
+    display: flex;
+    margin: 100px auto;
+    max-width: 1000px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 150px;
+    /* margin-top: 500px; */
+}
+
+#left-div {
+    width: 35%;
+    background-color: #ecf0f1;
+    padding: 20px;
+    text-align: center;
+}
+
+.left-top-image {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+}
+
+#left-middle-div, #left-bottom-div, #left-bottom-languages-div {
+    margin-top: 20px;
+    text-align: left;
+}
+
+#left-middle-div h2, #left-bottom-div h2, #left-bottom-languages-div h2 {
+    font-size: 20px;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+.left-logo, #email-logo, #skills-logo, #language-logo {
+    width: 16px;
+    height: 16px;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+#right-div {
+    width: 65%;
+    padding: 30px;
+}
+
+#right-div h1 {
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    border-bottom: 2px solid #1abc9c;
+    padding-bottom: 5px;
+}
+
+#name-institute {
+    font-size: 20px;
+    font-weight: bold;
+    color: #34495e;
+}
+
+.description {
+    font-size: 14px;
+    color: #7f8c8d;
+    margin-bottom: 8px;
+}
+
+.right-logo {
+    width: 24px;
+    height: 24px;
+    vertical-align: middle;
+    margin-right: 10px;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #2c3e50;
+    color: white;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+@media screen and (max-width: 768px) {
+    #container {
+        flex-direction: column;
+    }
+
+    #left-div, #right-div {
+        width: 100%;
+        padding: 20px;
+    }
+
+    #navbar {
+        flex-direction: column;
+    }
+
+    .lists {
+        margin: 10px 0;
+    }
+}
