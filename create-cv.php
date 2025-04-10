@@ -1,102 +1,99 @@
 <style>
-        * {
-            box-sizing: border-box;
-        }
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-            display: flex;
-            gap: 20px;
-        }
-        .container {
-            display: flex;
-            width: 100%;
-        }
-        .form-container, .preview-container {
-            width: 50%;
-            padding: 20px;
-            border: 1px solid #ccc;
-        }
-        textarea, input {
-            width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-        }
-        h2 {
-            text-align: center;
-        }
-        .section h3 {
-            border-bottom: 1px solid black;
-            margin-bottom: 10px;
-        }
-    </style>
+    .container {
+        font-family: Arial, sans-serif;
+        display: flex;
+        width: 100%;
+    }
+    .form-container, .preview-container {
+        width: 50%;
+        padding: 1.8vw;
+        border: 1px solid #ccc;
+    }
+    textarea {
+        width: 97.5%;
+        padding: 0.72vw;
+        margin-top: 0.4vw;
+    }
+    input {
+        width: 95%;
+        padding: 0.72vw;
+        margin-top: 0.4vw;
+    }
+    h2 {
+        text-align: center;
+    }
+    .section h3 {
+        border-bottom: 1px solid black;
+        margin-bottom: 0.4vw;
+    }
+</style>
 <div class="container">
     <!-- Left Side: Form -->
     <div class="form-container">
         <h2>Enter Your Details</h2>
         <form id="resumeForm" action="preview.php" method="POST">
-            <label>Full Name:</label><br>
-            <input type="text" name="name" required><br><br>
+            <label>Full Name:</label>
+            <input type="text" name="name" required>
 
-            <label>Address:</label><br>
-            <input type="text" name="address" required><br><br>
+            <label>Address:</label>
+            <input type="text" name="address" required>
 
-            <label>Phone:</label><br>
-            <input type="text" name="phone" required><br><br>
+            <label>Phone:</label>
+            <input type="text" name="phone" required>
 
-            <label>Email:</label><br>
-            <input type="email" name="email" required><br><br>
+            <label>Email:</label>
+            <input type="email" name="email" required>
 
-            <label>Birthday:</label><br>
-            <input type="date" name="birthday" required><br><br>
+            <label>Birthday:</label>
+            <input type="date" name="birthday" required>
 
-            <label>Gender:</label><br>
+            <label>Gender:</label>
             <select name="gender" required>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
-            </select><br><br>
+            </select>
 
-            <label>Language:</label><br>
-            <textarea name="language" required></textarea><br><br>
+            <label>Language:</label>
+            <textarea name="language" rows="5" required></textarea>
 
-            <label>Skills:</label><br>
-            <textarea name="skill" required></textarea><br><br>
+            <label>Skills:</label>
+            <textarea name="skill" rows="5" required></textarea>
 
-            <label>Company Name:</label><br>
-            <input type="text" name="companyname"><br><br>
+            <label>Company Name:</label>
+            <input type="text" name="companyname">
 
-            <label>Start Date:</label><br>
-            <input type="date" name="cstartdate"><br><br>
+            <label>Start Date:</label>
+            <input type="date" name="cstartdate">
 
-            <label>Position:</label><br>
-            <input type="text" name="cposition"><br><br>
+            <label>Position:</label>
+            <input type="text" name="cposition">
 
-            <label>University:</label><br>
-            <input type="text" name="varsityname"><br><br>
+            <label>University:</label>
+            <input type="text" name="varsityname">
 
-            <label>CGPA:</label><br>
-            <input type="text" name="cgpa"><br><br>
+            <label>CGPA:</label>
+            <input type="text" name="cgpa">
 
-            <label>Passing Year:</label><br>
-            <input type="text" name="varsitypyear"><br><br>
+            <label>Passing Year:</label>
+            <input type="text" name="varsitypyear">
 
-            <label>College:</label><br>
-            <input type="text" name="collegename"><br><br>
+            <label>College:</label>
+            <input type="text" name="collegename">
 
-            <label>HSC GPA:</label><br>
-            <input type="text" name="hscgpa"><br><br>
+            <label>HSC GPA:</label>
+            <input type="text" name="hscgpa">
 
-            <label>Passing Year:</label><br>
-            <input type="text" name="clgpyear"><br><br>
+            <label>Passing Year:</label>
+            <input type="text" name="clgpyear">
 
-            <label>School:</label><br>
-            <input type="text" name="schoolname"><br><br>
+            <label>School:</label>
+            <input type="text" name="schoolname">
 
-            <label>SSC GPA:</label><br>
-            <input type="text" name="sscgpa"><br><br>
+            <label>SSC GPA:</label>
+            <input type="text" name="sscgpa">
 
-            <label>Passing Year:</label><br>
-            <input type="text" name="sclpyear"><br><br>
+            <label>Passing Year:</label>
+            <input type="text" name="sclpyear">
 
             <button type="submit">Add Information</button>
         </form>
