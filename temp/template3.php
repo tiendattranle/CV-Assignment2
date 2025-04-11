@@ -3,10 +3,17 @@ session_start();
 include_once("../config.php");
 include_once("../login_db.php");
 
-
 $query = mysqli_query($conn, "SELECT * FROM cv_info WHERE username = '$_SESSION[username]'");
 $data = mysqli_fetch_array($query);
 mysqli_close($conn);
+?>
+
+<?php
+// Generate the shareable link
+$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
+$host = $_SERVER['HTTP_HOST'];
+$uri = $_SERVER['REQUEST_URI'];
+$shareLink = $protocol . $host . $uri;
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +22,161 @@ mysqli_close($conn);
     <meta charset="UTF-8">
     <title>Colorful CV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="CV.css">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #f0faff;
+            color: #333;
+            padding: 20px;
+        }
+
+        .wrapper {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Header Info */
+        .top-section {
+            background: linear-gradient(135deg, #58b4ae, #a4d4ae);
+            padding: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 30px;
+            border-bottom: 5px solid #53a3ff;
+        }
+
+        .top-section .profile-pic img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 4px solid #fff;
+            object-fit: cover;
+        }
+
+        .top-section .info {
+            flex: 1;
+            color: #fff;
+            text-align: left;
+        }
+
+        .top-section .info h1 {
+            font-size: 2.2rem;
+            margin-bottom: 5px;
+        }
+
+        .top-section .info h3 {
+            font-weight: 400;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .contact-info p {
+            margin-top: 10px;
+            font-size: 0.95rem;
+            color: #fff;
+            line-height: 1.4;
+            text-align: left;
+        }
+
+        .skills-languages {
+            display: flex;
+            gap: 30px;
+            margin-top: 15px;
+        }
+
+        .skills-languages h4 {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .skills-languages p {
+            font-size: 0.9rem;
+        }
+
+        /* Main Section */
+        .main-content {
+            padding: 30px;
+        }
+
+        .section-card {
+            background-color: #e7f1ff;
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0, 80, 180, 0.1);
+        }
+
+        .section-card h2 {
+            font-size: 1.6rem;
+            margin-bottom: 20px;
+            color: #275778;
+            border-left: 6px solid #53a3ff;
+            padding-left: 12px;
+        }
+
+        .item {
+            margin-bottom: 20px;
+        }
+
+        .item h3 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .date {
+            font-size: 0.9rem;
+            color: #666;
+            margin: 5px 0;
+            display: block;
+        }
+
+        .item p {
+            font-size: 0.95rem;
+            color: #444;
+        }
+
+        .share-link-container {
+            margin: 20px auto;
+            text-align: center;
+            max-width: 1000px;
+        }
+
+        .share-link-container input {
+            width: 80%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.95rem;
+        }
+
+        .share-link-container button {
+            padding: 10px 20px;
+            background-color: #53a3ff;
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.95rem;
+        }
+
+        .share-link-container button:hover {
+            background-color: #3b8aff;
+        }
+    </style>
 </head>
 <body>
     <div class="wrapper">
@@ -81,5 +242,26 @@ mysqli_close($conn);
             </section>
         </main>
     </div>
+    
+    <div class="share-link-container">
+        <label for="share-link"><strong>Share this CV:</strong></label><br>
+        <input id="share-link" type="text" value="<?php echo htmlspecialchars($shareLink); ?>" readonly>
+        <br>
+        <button onclick="copyLink()">Copy Link</button>
+    </div>
+
+    <script>
+        function copyLink() {
+            const input = document.getElementById("share-link");
+            input.select();
+            input.setSelectionRange(0, 99999); // For mobile compatibility
+            try {
+                document.execCommand("copy");
+                alert("Link copied to clipboard!");
+            } catch (err) {
+                alert("Failed to copy the link. Please copy it manually.");
+            }
+        }
+    </script>
 </body>
 </html>
