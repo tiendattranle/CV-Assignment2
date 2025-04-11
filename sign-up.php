@@ -3,36 +3,47 @@
         var password = document.getElementById("psw").value;
         var retpassword = document.getElementById("retpsw").value;
 
+        if (password.length < 8) {
+            alert("Password must be at least 8 characters long.");
+            event.preventDefault();
+            return false;
+        }
+
         if (password !== retpassword) {
             alert("Passwords do not match.");
             event.preventDefault();
             return false;
         }
+
         alert("Registration successful! Please login.");
         return true;
     }
 </script>
 <?php
-    if ($_SERVER["REQUEST_METHOD"] == "POST" && $_POST["password"] == $_POST["retpassword"]) {
-        include_once("config.php");
-        $username = trim($_POST["username"]);
-        $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
-        $query = "INSERT INTO login (username, email, password) VALUES ('$username', '$_POST[email]', '$password')";
+    if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        if (strlen($_POST["password"]) < 8) {
+            die("Error: Password must be at least 8 characters long.");
+        }
 
-        // value insert in cv_info table
-        $queryinfo = "INSERT INTO cv_info (email, birthday, gender, username) VALUES ('$_POST[email]', '$_POST[dob]', '$_POST[gender]', '$username')";
+        if ($_POST["password"] == $_POST["retpassword"]) {
+            include_once("config.php");
+            $username = trim($_POST["username"]);
+            $password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+            $query = "INSERT INTO login (username, email, password) VALUES ('$username', '$_POST[email]', '$password')";
 
-        if(mysqli_query($conn, $query)){
-            mysqli_query($conn, $queryinfo);
+            // value insert in cv_info table
+            $queryinfo = "INSERT INTO cv_info (email, birthday, gender, username) VALUES ('$_POST[email]', '$_POST[dob]', '$_POST[gender]', '$username')";
+
+            if (mysqli_query($conn, $query)) {
+                mysqli_query($conn, $queryinfo);
+                mysqli_close($conn);
+                header("Location: ?page=log-in");
+            } else {
+                die('Error: ' . mysqli_error($conn));
+            }
             mysqli_close($conn);
-            header("Location: ?page=log-in");
         }
-        else{
-            die('Error: ' . mysqli_error($conn));
-        }
-        mysqli_close($conn);
     }
-
 ?>
 <link rel="stylesheet" href="css/sign-up.css">
 <div class="sign-up-container">
