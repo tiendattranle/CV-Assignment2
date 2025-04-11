@@ -1,6 +1,12 @@
+body {
+    background-color: #755a34e3;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
 .log-in-container {
     width: 40%;
-    padding: 0;
+    padding: 2vw 1vw;
     display: flex;
     margin: auto;
 }
@@ -88,7 +94,7 @@ h1 {
 
 .error-message {
     color: red;
-    margin: 10px 0;
+    margin-bottom: 1.3vw;
     font-size: 14px;
 }
 

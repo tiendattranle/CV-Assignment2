@@ -20,7 +20,7 @@ if(isset($_POST["login"])){
 	}
 	else{
 		$_SESSION['errorMessage'] = 1;
-		header("Location:login.php");
+		header("Location:log-in.php");
 	}
 	mysqli_close($conn);
 }
