@@ -43,10 +43,8 @@ $shareLink = $baseURL . $currentPath . '?id=' . urlencode($cvId);
 // Sanitize filename
 $cvFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $cv['name']) . '_cv.pdf';
 
-
 function getImagePath($image) {
     $image_path = '../images/users/';
-    // return $image;
     if (!empty($image) && file_exists($image_path.$image)) {
         return $image_path.$image;
     }
@@ -201,6 +199,21 @@ function getImagePath($image) {
             cursor: pointer;
         }
 
+        .download-button-container {
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        .download-button-container button {
+            padding: 8px 12px;
+            font-size: 14px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
         @media (max-width: 768px) {
             #container {
                 flex-direction: column;
@@ -217,7 +230,7 @@ function getImagePath($image) {
     <div class="cv-container" id="cv-content">
         <div id="container">
             <div id="left-div">
-            <div class="profile-image-placeholder" style="<?php echo !empty($cv['image']) ? 'background-image: url(' . htmlspecialchars(getImagePath($cv['image'])) . '); background-size: cover; background-position: center;' : ''; ?>"></div>
+                <div class="profile-image-placeholder" style="<?php echo !empty($cv['image']) ? 'background-image: url(' . htmlspecialchars(getImagePath($cv['image'])) . '); background-size: cover; background-position: center;' : ''; ?>"></div>
                 <div id="left-middle-div">
                     <h2 class="name"><?php echo htmlspecialchars($cv['name']); ?></h2>
                     <p><i class="bx bx-home left-logo"></i> <?php echo htmlspecialchars($cv['address']); ?></p>
@@ -267,18 +280,19 @@ function getImagePath($image) {
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Download and Shareable Link Section -->
-        <div class="share-link-container">
-            <button onclick="downloadPDF()" style="background-color:#3498db;">Download as PDF</button>
-        </div>
+    <!-- Download Button Section (Moved outside cv-content) -->
+    <div class="download-button-container">
+        <button onclick="downloadPDF()">Download as PDF</button>
+    </div>
 
-        <div class="share-link-container" id="share-section">
-            <label for="share-link"><strong>Share this CV:</strong></label><br>
-            <input id="share-link" type="text" value="<?php echo htmlspecialchars($shareLink); ?>" readonly>
-            <br>
-            <button onclick="copyLink()">Copy Link</button>
-        </div>
+    <!-- Shareable Link Section -->
+    <div class="share-link-container" id="share-section">
+        <label for="share-link"><strong>Share this CV:</strong></label><br>
+        <input id="share-link" type="text" value="<?php echo htmlspecialchars($shareLink); ?>" readonly>
+        <br>
+        <button onclick="copyLink()">Copy Link</button>
     </div>
 
     <script>
@@ -292,19 +306,19 @@ function getImagePath($image) {
 
         function downloadPDF() {
             const shareSection = document.getElementById("share-section");
-            shareSection.style.display = "none"; // Hide share link
+            shareSection.style.display = "none"; // Hide share link during PDF generation
 
             const cvContent = document.getElementById("cv-content");
             const opt = {
-                margin:       0.3,
-                filename:     "<?php echo $cvFileName; ?>",
-                image:        { type: 'jpeg', quality: 0.98 },
-                html2canvas:  { scale: 2 },
-                jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+                margin: 0.3,
+                filename: "<?php echo $cvFileName; ?>",
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2 },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(cvContent).save().then(() => {
-                shareSection.style.display = "block"; // Show share link again
+                shareSection.style.display = "block"; // Show share link again after PDF generation
             });
         }
     </script>

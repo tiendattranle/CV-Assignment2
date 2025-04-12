@@ -6,14 +6,18 @@ include_once("../login_db.php");
 $query = mysqli_query($conn, "SELECT * FROM cv_info WHERE username = '$_SESSION[username]'");
 $data = mysqli_fetch_array($query);
 mysqli_close($conn);
-?>
 
-<?php
 // Generate the shareable link
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'];
-$uri = $_SERVER['REQUEST_URI'];
+$uri = strtok($_SERVER['REQUEST_URI'], '?');
 $shareLink = $protocol . $host . $uri;
+
+// Convert relative image path to absolute for PDF rendering
+$imagePath = $protocol . $host . "/uploads/" . ($data['image'] ?: 'default-image.jpg');
+
+// File name for PDF download
+$cvFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $data['name']) . '_cv.pdf';
 ?>
 
 <!DOCTYPE html>
@@ -22,7 +26,7 @@ $shareLink = $protocol . $host . $uri;
     <meta charset="UTF-8">
     <title>Colorful CV</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
         * {
             box-sizing: border-box;
@@ -45,8 +49,7 @@ $shareLink = $protocol . $host . $uri;
             overflow: hidden;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
         }
-
-        /* Header Info */
+        
         .top-section {
             background: linear-gradient(135deg, #58b4ae, #a4d4ae);
             padding: 30px;
@@ -106,71 +109,70 @@ $shareLink = $protocol . $host . $uri;
             font-size: 0.9rem;
         }
 
-        /* Main Section */
         .main-content {
-            padding: 30px;
+            padding: 15px; /* Reduced padding */
         }
 
         .section-card {
             background-color: #e7f1ff;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 5px 15px rgba(0, 80, 180, 0.1);
+            border-radius: 8px; /* Reduced border-radius */
+            padding: 15px; /* Reduced padding */
+            margin-bottom: 15px; /* Reduced margin */
         }
 
         .section-card h2 {
-            font-size: 1.6rem;
-            margin-bottom: 20px;
+            font-size: 1.3rem; /* Reduced font size */
+            margin-bottom: 10px; /* Reduced margin */
             color: #275778;
-            border-left: 6px solid #53a3ff;
-            padding-left: 12px;
+            border-left: 4px solid #53a3ff; /* Reduced border thickness */
+            padding-left: 8px; /* Reduced padding */
         }
 
         .item {
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* Reduced margin */
         }
 
         .item h3 {
-            font-size: 1.2rem;
+            font-size: 1rem; /* Reduced font size */
             color: #333;
         }
 
         .date {
-            font-size: 0.9rem;
+            font-size: 0.8rem; /* Reduced font size */
             color: #666;
-            margin: 5px 0;
+            margin: 3px 0; /* Reduced margin */
             display: block;
         }
 
         .item p {
-            font-size: 0.95rem;
+            font-size: 0.85rem; /* Reduced font size */
             color: #444;
         }
 
         .share-link-container {
-            margin: 20px auto;
+            margin: 15px auto; /* Reduced margin */
             text-align: center;
             max-width: 1000px;
         }
 
         .share-link-container input {
             width: 80%;
-            padding: 10px;
+            padding: 8px; /* Reduced padding */
             border: 1px solid #ccc;
-            border-radius: 8px;
-            margin: 10px 0;
-            font-size: 0.95rem;
+            border-radius: 6px; /* Reduced border-radius */
+            margin: 5px 0; /* Reduced margin */
+            font-size: 0.9rem; /* Reduced font size */
         }
 
         .share-link-container button {
-            padding: 10px 20px;
+            padding: 8px 15px; /* Reduced padding */
             background-color: #53a3ff;
             color: #fff;
             border: none;
-            border-radius: 8px;
+            border-radius: 6px; /* Reduced border-radius */
             cursor: pointer;
-            font-size: 0.95rem;
+            font-size: 0.9rem; /* Reduced font size */
+            margin: 3px; /* Reduced margin */
         }
 
         .share-link-container button:hover {
@@ -179,89 +181,127 @@ $shareLink = $protocol . $host . $uri;
     </style>
 </head>
 <body>
-    <div class="wrapper">
-        <!-- Top Header Section -->
-        <header class="top-section">
-            <div class="profile-pic">
-                <img src="uploads/<?php echo $data['image'] ?: 'default-image.jpg'; ?>" alt="Profile Picture">
+
+<!-- START: PDF Content Wrapper -->
+<div id="cv-content" class="wrapper">
+    <!-- Top Header Section -->
+    <header class="top-section">
+        <div class="profile-pic">
+            <img src="<?php echo $imagePath; ?>" alt="Profile Picture">
+        </div>
+        <div class="info">
+            <h1><?php echo htmlspecialchars($data['name'] ?: 'N/A'); ?></h1>
+            <h3><?php echo htmlspecialchars($data['cposition'] ?: 'N/A'); ?></h3>
+            <div class="contact-info">
+                <p><strong>📍</strong> <?php echo htmlspecialchars($data['address'] ?: 'N/A'); ?></p>
+                <p><strong>📞</strong> <?php echo htmlspecialchars($data['phone'] ?: 'N/A'); ?></p>
+                <p><strong>✉️</strong> <?php echo htmlspecialchars($data['email'] ?: 'N/A'); ?></p>
             </div>
-            <div class="info">
-                <h1><?php echo $data['name']; ?></h1>
-                <h3><?php echo $data['cposition']; ?></h3>
-
-                <div class="contact-info">
-                    <p><strong>📍</strong> <?php echo $data['address']; ?></p>
-                    <p><strong>📞</strong> <?php echo $data['phone']; ?></p>
-                    <p><strong>✉️</strong> <?php echo $data['email']; ?></p>
+            <div class="skills-languages">
+                <div>
+                    <h4>Tech Stack</h4>
+                    <p><?php echo htmlspecialchars($data['skill'] ?: 'N/A'); ?></p>
                 </div>
-
-                <div class="skills-languages">
-                    <div>
-                        <h4>Tech Stack</h4>
-                        <p><?php echo $data['skill']; ?></p>
-                    </div>
-                    <div>
-                        <h4>Languages</h4>
-                        <p><?php echo $data['language']; ?></p>
-                    </div>
+                <div>
+                    <h4>Languages</h4>
+                    <p><?php echo htmlspecialchars($data['language'] ?: 'N/A'); ?></p>
                 </div>
             </div>
-        </header>
+        </div>
+    </header>
 
-        <!-- Main Content -->
-        <main class="main-content">
-            <section class="section-card">
-                <h2>Work Experience</h2>
-                <div class="item">
-                    <h3><?php echo $data['cposition'] . " - " . $data['companyname']; ?></h3>
-                    <span class="date"><?php echo $data['cstartdate']; ?></span>
-                    <p><!-- Optional job description here --></p>
-                </div>
-            </section>
+    <!-- Main Content -->
+    <main class="main-content">
+        <section class="section-card">
+            <h2>Work Experience</h2>
+            <div class="item">
+                <h3><?php echo htmlspecialchars($data['cposition'] . " - " . $data['companyname'] ?: 'N/A'); ?></h3>
+                <span class="date"><?php echo htmlspecialchars($data['cstartdate'] ?: 'N/A'); ?></span>
+                <p><!-- Optional job description here --></p>
+            </div>
+        </section>
 
-            <section class="section-card">
-                <h2>Education</h2>
+        <section class="section-card">
+            <h2>Education</h2>
+            <div class="item">
+                <h3><?php echo htmlspecialchars($data['varsityname'] ?: 'N/A'); ?></h3>
+                <span class="date">Graduated: <?php echo htmlspecialchars($data['varsitypyear'] ?: 'N/A'); ?></span>
+                <p>CGPA: <?php echo htmlspecialchars($data['cgpa'] ?: 'N/A'); ?></p>
+            </div>
+            <div class="item">
+                <h3><?php echo htmlspecialchars($data['collegename'] ?: 'N/A'); ?></h3>
+                <span class="date">Graduated: <?php echo htmlspecialchars($data['clgpyear'] ?: 'N/A'); ?></span>
+                <p>GPA: <?php echo htmlspecialchars($data['hscgpa'] ?: 'N/A'); ?></p>
+            </div>
+            <div class="item">
+                <h3><?php echo htmlspecialchars($data['schoolname'] ?: 'N/A'); ?></h3>
+                <span class="date">Graduated: <?php echo htmlspecialchars($data['sclpyear'] ?: 'N/A'); ?></span>
+                <p>GPA: <?php echo htmlspecialchars($data['sscgpa'] ?: 'N/A'); ?></p>
+            </div>
+        </section>
+    </main>
+</div>
+<!-- END: PDF Content Wrapper -->
 
-                <div class="item">
-                    <h3><?php echo $data['varsityname']; ?></h3>
-                    <span class="date">Graduated: <?php echo $data['varsitypyear']; ?></span>
-                    <p>CGPA: <?php echo $data['cgpa']; ?></p>
-                </div>
+<!-- Share + Download Section -->
+<div class="share-link-container">
+    <label for="share-link"><strong>Share this CV:</strong></label><br>
+    <input id="share-link" type="text" value="<?php echo htmlspecialchars($shareLink); ?>" readonly><br>
+    <button onclick="copyLink()">Copy Link</button>
+    <button onclick="downloadPDF()">Download as PDF</button>
+</div>
 
-                <div class="item">
-                    <h3><?php echo $data['collegename']; ?></h3>
-                    <span class="date">Graduated: <?php echo $data['clgpyear']; ?></span>
-                    <p>GPA: <?php echo $data['hscgpa']; ?></p>
-                </div>
+<script>
+    // Preload the image to ensure it loads in the PDF
+    function preloadImage(url) {
+        return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.src = url;
+            img.onload = resolve;
+            img.onerror = reject;
+        });
+    }
 
-                <div class="item">
-                    <h3><?php echo $data['schoolname']; ?></h3>
-                    <span class="date">Graduated: <?php echo $data['sclpyear']; ?></span>
-                    <p>GPA: <?php echo $data['sscgpa']; ?></p>
-                </div>
-            </section>
-        </main>
-    </div>
-    
-    <div class="share-link-container">
-        <label for="share-link"><strong>Share this CV:</strong></label><br>
-        <input id="share-link" type="text" value="<?php echo htmlspecialchars($shareLink); ?>" readonly>
-        <br>
-        <button onclick="copyLink()">Copy Link</button>
-    </div>
+    async function downloadPDF() {
+        const element = document.getElementById('cv-content');
+        const imageUrl = '<?php echo $imagePath; ?>';
 
-    <script>
-        function copyLink() {
-            const input = document.getElementById("share-link");
-            input.select();
-            input.setSelectionRange(0, 99999); // For mobile compatibility
-            try {
-                document.execCommand("copy");
-                alert("Link copied to clipboard!");
-            } catch (err) {
-                alert("Failed to copy the link. Please copy it manually.");
-            }
+        // Preload the image before generating the PDF
+        try {
+            await preloadImage(imageUrl);
+        } catch (error) {
+            console.error('Failed to load image:', error);
         }
-    </script>
+
+        const opt = {
+            margin: 5, // Reduced margin to fit more content
+            filename: '<?php echo $cvFileName; ?>',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { 
+                scale: 1.5, // Reduced scale to fit content on one page
+                useCORS: true,
+                logging: true
+            },
+            jsPDF: { 
+                unit: 'mm', 
+                format: 'a4', 
+                orientation: 'portrait' 
+            },
+            pagebreak: { 
+                mode: ['avoid-all'], // Prevent page breaks within sections
+                avoid: ['.section-card', '.item'] // Avoid breaking these elements
+            }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function copyLink() {
+        const input = document.getElementById("share-link");
+        input.select();
+        input.setSelectionRange(0, 99999);
+        document.execCommand("copy");
+        alert("Link copied to clipboard!");
+    }
+</script>
 </body>
 </html>

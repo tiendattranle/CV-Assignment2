@@ -21,8 +21,8 @@ if (isset($_POST["submit"])) {
     $stmtLogin->bind_param("sss", $username, $email, $hashedPassword);
 
     // Use prepared statements for cv_info table
-    $stmtInfo = $conn->prepare("INSERT INTO cv_info (email, birthday, gender, username) VALUES (?, ?, ?, ?)");
-    $stmtInfo->bind_param("ssss", $email, $dob, $gender, $username);
+    // $stmtInfo = $conn->prepare("INSERT INTO cv_info (email, birthday, gender, username) VALUES (?, ?, ?, ?)");
+    // $stmtInfo->bind_param("ssss", $email, $dob, $gender, $username);
 
     if ($stmtLogin->execute()) {
         $stmtInfo->execute(); // execute second only if first succeeds
