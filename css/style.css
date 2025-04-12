@@ -590,13 +590,6 @@ footer {
     font-weight: bold;
 }
 
-.input-group input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
 
 button {
     background-color: #007BFF;
@@ -610,8 +603,6 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-
-
 
 /* Styling for input fields */
 input {
@@ -668,6 +659,9 @@ button:hover {
     background: hsl(29, 77%, 24%);
     box-shadow: 0px 5px 10px 0px hsla(207, 97%, 35%, 0.2);
 }
+
+
+
 
 /*(laptop) */
 @media only screen and (min-width: 1367px) {
