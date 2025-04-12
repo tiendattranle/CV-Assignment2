@@ -1,7 +1,7 @@
 <?php
 include_once("config.php");
 
-$query = mysqli_query($conn, "SELECT * FROM cv_info WHERE username = '$_SESSION[username]'");
+$query = mysqli_query($conn, "SELECT * FROM cv_info WHERE id = '" . $_GET["id"] . "'");
 $data = mysqli_fetch_array($query);
 mysqli_close($conn);
 
