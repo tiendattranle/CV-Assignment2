@@ -254,8 +254,15 @@ footer {
 
 
 
-/* Home page */
+/* HOME PAGE */
+@import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
 
+body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+    color: #333;
+}
 .home {
     background: #c0ab8c;
     color: white;
@@ -275,13 +282,12 @@ footer {
     color: #3d1f06;
     margin-bottom: 20px;
     transition: all 0.3s ease;
-    animation: autoEffect 3s linear infinite;
 }
-
 
 .home p {
     font-size: 24px;
     margin-bottom: 40px;
+    color: #44301e;
 }
 
 .home .btn {
@@ -298,9 +304,11 @@ footer {
     background: #584432;
 }
 
+/* Features Section */
 .features {
     padding: 60px 0;
     text-align: center;
+    background-color: #f9f9f9;
 }
 
 .features .container {
@@ -312,21 +320,30 @@ footer {
 .features h2 {
     font-size: 36px;
     margin-bottom: 40px;
+    color: #3d1f06;
 }
 
 .feature-row {
-    flex-wrap: nowrap;
-    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 40px;
 }
 
 .feature-item {
-    margin-top: 3%;
-    width: 500px;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    transition: transform 0.3s;
+    flex: 1 1 300px;
+    max-width: 350px;
+    padding: 30px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
     background-color: white;
+    transition: transform 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+
+.feature-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 .feature-item i {
@@ -336,8 +353,9 @@ footer {
 }
 
 .feature-item h3 {
-    font-size: 24px;
-    margin-bottom: 20px;
+    font-size: 22px;
+    margin-bottom: 15px;
+    color: #3d1f06;
 }
 
 .feature-item p {
@@ -345,9 +363,32 @@ footer {
     color: #666;
 }
 
-.feature-item:hover {
-    transform: translateY(-10px);
+/* Animation for heading */
+@keyframes autoEffect {
+    0% { letter-spacing: 0px; opacity: 0.9; }
+    50% { letter-spacing: 2px; opacity: 1; }
+    100% { letter-spacing: 0px; opacity: 0.9; }
 }
+
+/* Responsive */
+@media (max-width: 768px) {
+    .home h1 {
+        font-size: 36px;
+    }
+
+    .home p {
+        font-size: 18px;
+    }
+
+    .features h2 {
+        font-size: 28px;
+    }
+
+    .feature-item {
+        max-width: 100%;
+    }
+}
+
 
 
 /* Templates Section */
@@ -499,7 +540,6 @@ footer {
 }
 
 /* contact Page */
-
 .contact {
     padding: 100px 0;
     text-align: center;
@@ -507,8 +547,6 @@ footer {
 .contact-container {
     width: 80%;
     margin: auto;
-
-
 }
 
 .contact-container2 {
@@ -528,7 +566,6 @@ footer {
 
 }
 
-/* Styling for paragraph text */
 .contact-container p {
     color: #8e6529;
     text-align: center;
@@ -536,7 +573,6 @@ footer {
     margin-bottom: 40px;
 }
 
-/* Styling for contact box container */
 .contact-box {
     border-radius: 20px;
     text-align: center;
