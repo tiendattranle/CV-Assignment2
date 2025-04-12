@@ -42,6 +42,7 @@ CREATE TABLE IF NOT EXISTS cv_info (
   sclpyear DATE NOT NULL,
   image VARCHAR(100) NOT NULL,
   username VARCHAR(20) NOT NULL,
+  template Int,
   PRIMARY KEY (id, username),
   FOREIGN KEY (username) REFERENCES login(username)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
