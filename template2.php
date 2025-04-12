@@ -1,7 +1,5 @@
 <?php
-session_start();
-include_once("../config.php");
-include_once("../login_db.php");
+include_once("config.php");
 
 $query = mysqli_query($conn, "SELECT * FROM cv_info WHERE username = '$_SESSION[username]'");
 $data = mysqli_fetch_array($query);
@@ -9,129 +7,117 @@ mysqli_close($conn);
 
 ?>
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Professional CV</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+<style>
+    .body {
+        margin: 0 auto;
+        font-family: 'Segoe UI', sans-serif;
+        color: #333;
+        padding: 20px;
+    }
 
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f9ff;
-            color: #333;
-        }
+    .wrapper {
+        max-width: 1100px;
+        margin: 40px auto;
+        background-color: #ffffff;
+        border-radius: 16px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+    }
 
-        .wrapper {
-            max-width: 1100px;
-            margin: 40px auto;
-            background-color: #ffffff;
-            border-radius: 16px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
+    .cv-container {
+        display: flex;
+        min-height: 100vh;
+    }
 
-        .cv-container {
-            display: flex;
-            min-height: 100vh;
-        }
+    .sidebar {
+        width: 260px;
+        background-color: #1e3a5f;
+        color: white;
+        padding: 30px 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 
-        .sidebar {
-            width: 260px;
-            background-color: #1e3a5f;
-            color: white;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+    .sidebar .profile-pic img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 15px;
+    }
 
-        .sidebar .profile-pic img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-bottom: 15px;
-        }
+    .sidebar .full-name {
+        font-size: 1.4rem;
+        margin-bottom: 5px;
+    }
 
-        .sidebar .full-name {
-            font-size: 1.4rem;
-            margin-bottom: 5px;
-        }
+    .sidebar .job-title {
+        font-size: 1rem;
+        font-weight: 300;
+        margin-bottom: 20px;
+    }
 
-        .sidebar .job-title {
-            font-size: 1rem;
-            font-weight: 300;
-            margin-bottom: 20px;
-        }
+    .contact-info {
+        list-style: none;
+        font-size: 0.9rem;
+        margin-bottom: 25px;
+        text-align: center;
+    }
 
-        .contact-info {
-            list-style: none;
-            font-size: 0.9rem;
-            margin-bottom: 25px;
-            text-align: center;
-        }
+    .skills-section,
+    .languages-section {
+        margin-bottom: 20px;
+    }
 
-        .skills-section,
-        .languages-section {
-            margin-bottom: 20px;
-        }
+    .skills-section h3,
+    .languages-section h3 {
+        font-size: 1rem;
+        margin-bottom: 5px;
+        border-bottom: 1px solid #ffffff50;
+    }
 
-        .skills-section h3,
-        .languages-section h3 {
-            font-size: 1rem;
-            margin-bottom: 5px;
-            border-bottom: 1px solid #ffffff50;
-        }
+    .main-content {
+        flex: 1;
+        padding: 40px;
+    }
 
-        .main-content {
-            flex: 1;
-            padding: 40px;
-        }
+    .section-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+        margin-bottom: 30px;
+        padding: 20px 30px;
+    }
 
-        .section-card {
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
-            margin-bottom: 30px;
-            padding: 20px 30px;
-        }
+    .section-card h2 {
+        color: #1e3a5f;
+        margin-bottom: 15px;
+        font-size: 1.4rem;
+    }
 
-        .section-card h2 {
-            color: #1e3a5f;
-            margin-bottom: 15px;
-            font-size: 1.4rem;
-        }
+    .section-card .item {
+        margin-bottom: 15px;
+    }
 
-        .section-card .item {
-            margin-bottom: 15px;
-        }
+    .section-card .item h3 {
+        font-size: 1.1rem;
+        color: #0f2745;
+    }
 
-        .section-card .item h3 {
-            font-size: 1.1rem;
-            color: #0f2745;
-        }
+    .section-card .item .date {
+        font-size: 0.9rem;
+        color: #555;
+        display: block;
+        margin: 3px 0 5px;
+    }
 
-        .section-card .item .date {
-            font-size: 0.9rem;
-            color: #555;
-            display: block;
-            margin: 3px 0 5px;
-        }
-
-        .section-card .item p {
-            font-size: 0.95rem;
-            color: #444;
-        }
-    </style>
-</head>
-<body>
+    .section-card .item p {
+        font-size: 0.95rem;
+        color: #444;
+    }
+</style>
+<div class="body">
     <div class="wrapper">
         <div class="cv-container">
             <aside class="sidebar">
@@ -207,5 +193,4 @@ mysqli_close($conn);
             alert("Link copied to clipboard!");
         }
     </script>
-</body>
-</html>
+</div>
