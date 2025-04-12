@@ -1,3 +1,6 @@
+<?php
+    session_start(); // Ensure session is started at the top of the file
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,11 +28,13 @@
                 <li><a href="?page=template">Templates</a></li>
                 <li><a href="?page=contact">Contact</a></li>
                 <?php
-                    if (!isset($_SESSION["role"])) {
+                    // Check if the user is logged in
+                    if (!isset($_SESSION["username"])) {
+                        // User is not logged in
                         echo '<li><a href="?page=log-in">Log in</a></li>
-                            <li><a href="?page=sign-up">Sign up</a></li>';
-                    }
-                    else {
+                              <li><a href="?page=sign-up">Sign up</a></li>';
+                    } else {
+                        // User is logged in
                         echo '<li><a href="?page=sign-out">Log out</a></li>';
                     }
                 ?>
@@ -39,16 +44,14 @@
     </header>        
     <main>
     <?php
-                $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-                $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv'];
-                if (in_array($page, $allowed_pages)) {
-                    
-                        include("$page.php");
-                } 
-                else {
-                    include("404.html"); 
-                }
-            ?>
+        $page = isset($_GET['page']) ? $_GET['page'] : 'home';
+        $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv'];
+        if (in_array($page, $allowed_pages)) {
+            include("$page.php");
+        } else {
+            include("404.html"); 
+        }
+    ?>
     </main>
     <footer>
         <div class="footer-container">
