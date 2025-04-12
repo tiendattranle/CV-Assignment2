@@ -508,6 +508,16 @@ footer {
 .contact-container {
     width: 80%;
     margin: auto;
+
+
+}
+
+.contact-container2 {
+    width: 100%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .contact-container h1 {
@@ -516,6 +526,7 @@ footer {
     font-size: 30px;
     font-weight: 800;
     margin-bottom: 10px;
+
 }
 
 /* Styling for paragraph text */
@@ -530,11 +541,12 @@ footer {
 .contact-box {
     border-radius: 20px;
     text-align: center;
-    padding: 20px;
+    padding: 1vw;
     width: 40%;
-    margin: auto;
+    margin-bottom: 4.5vw;
     backdrop-filter: blur(50px);
     box-shadow: 1px 1px 5px #987f6f;
+    display: flex;
 }
 
 /* Styling for heading inside left container */
@@ -554,6 +566,49 @@ footer {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+}
+
+.map-container {
+    text-align: center;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    width: 50%;
+    background-color: #987f6f;
+}
+
+.map-container h4 {
+    margin-bottom: 2vw;
+    font-size: 1.2vw;
+    color: #ececec;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+button {
+    background-color: #007BFF;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #0056b3;
 }
 
 

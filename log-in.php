@@ -1,27 +1,66 @@
 <?php
-session_start();
-include_once("login_db.php");
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
-// Redirect to index if the user is already logged in
+// Redirect if already logged in
 if (isset($_SESSION['username'])) {
-    header("Location: index.php?page=index");
+    header("Location: ?page=home");
     exit();
 }
 
-// Clear error message after displaying it
 $errorMessage = '';
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    include_once("config.php");
+
+    $username = trim($_POST["username"]);
+    $password = trim($_POST["password"]);
+
+    // Use prepared statement
+    $stmt = $conn->prepare("SELECT password FROM login WHERE username = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    // Check if user exists
+    if ($stmt->num_rows === 1) {
+        $stmt->bind_result($hashedPassword);
+        $stmt->fetch();
+
+        // Verify password
+        if (password_verify($password, $hashedPassword)) {
+            $_SESSION['username'] = $username;
+            $stmt->close();
+            $conn->close();
+            header("Location: ?page=home");
+            exit();
+        }
+    }
+
+    // If login fails
+    $_SESSION['errorMessage'] = "Invalid username or password. Please try again.";
+    header("Location: ?page=log-in");
+    exit();
+}
+
+// Display and clear error
 if (isset($_SESSION['errorMessage'])) {
     $errorMessage = $_SESSION['errorMessage'];
     unset($_SESSION['errorMessage']);
 }
 ?>
- 
+
 <link rel="stylesheet" href="css/log-in.css">
 <div class="log-in-container">
-    <form action="login_db.php" method="post" class="login-form">
+    <form action="" method="post" class="login-form">
         <div class="login-box">
             <img style="width: 30%; margin-bottom: auto; " src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" alt="Avatar">
             <h1>Welcome Back Babyboo</h1>
+
+            <?php if (!empty($errorMessage)): ?>
+                <div class="error-message"><?= htmlspecialchars($errorMessage) ?></div>
+            <?php endif; ?>
 
             <div class="input-group">
                 <input type="text" name="username" placeholder="Username" required>
@@ -32,10 +71,6 @@ if (isset($_SESSION['errorMessage'])) {
                 <input type="password" name="password" placeholder="Password" required>
                 <i class="fas fa-lock icon"></i>
             </div>
-
-            <?php if (!empty($errorMessage)): ?>
-                <div class="error-message"><?= htmlspecialchars($errorMessage) ?></div>
-            <?php endif; ?>
 
             <input type="submit" name="login" value="Login" class="btn-login">
 
