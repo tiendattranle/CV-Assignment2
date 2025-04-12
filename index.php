@@ -20,8 +20,7 @@
                 <li><a href="?page=home">Home</a></li>
                 <li id="cv"><a>CV Management</a>
                     <ul class="dropdown">
-                        <li><a href="?page=demo">My CV</a></li>
-                        <li><a href="?page=update-cv">Update CV</a></li>
+                        <li><a href="?page=my-cv">My CV</a></li>
                         <li><a href="?page=create-cv">Create New CV</a></li>
                     </ul>
                 </li>
@@ -43,14 +42,22 @@
     <main>
         <?php
             $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-            $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out', 'login_db'];
+            $allowed_pages = ['home', 'my-cv', 'create-cv', 'template', 'demo', 'view', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv'];
             if (in_array($page, $allowed_pages)) {
                 if ($page == 'sign-out') {
                     session_destroy();
                     unset($_SESSION['username']);
                     header("Location: ?page=home");
                 }
-                include("$page.php");
+                else if ($page == 'demo') {
+                    include("template".$_GET['id']."-viewonly.php");
+                }
+                else if ($page == 'view') {
+                    include("template".$_GET['template'].".php");
+                }
+                else {
+                    include("$page.php");
+                }
             } 
             else {
                 include("404.html"); 

@@ -7,15 +7,15 @@
             <div class="template-grid">
                 <div class="template-item">
                     <img src="images/template1.png" alt="Template 1">
-                    <a href="template1.php" class="btn">Use Template 1</a>
+                    <a href="?page=demo&id=1" class="btn">Template 1 Demo</a>
                 </div>
                 <div class="template-item">
                     <img src="images/template2.png" alt="Template 2">
-                    <a href="template2.php" class="btn">Use Template 2</a>
+                    <a href="?page=demo&id=2" class="btn">Template 2 Demo</a>
                 </div>
                 <div class="template-item">
                     <img src="images/template3.png" alt="Template 3">
-                    <a href="template3.php" class="btn">Use Template 3</a>
+                    <a href="?page=demo&id=3" class="btn">Template 3 Demo</a>
                 </div>
             </div>
         </div>
