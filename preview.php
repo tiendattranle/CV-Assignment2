@@ -32,10 +32,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(move_uploaded_file($_FILES['profileImage']['tmp_name'], $target_file)) {
             $_POST['image'] = $new_filename; // Update image field with new filename
         } else {
-            $_POST['image'] = 'default-image.jpg'; // Use default if upload fails
+            $_POST['image'] = 'default.jpg'; // Use default if upload fails
         }
     } else {
-        $_POST['image'] = 'default-image.jpg'; // Use default if no file uploaded
+        $_POST['image'] = 'default.jpg'; // Use default if no file uploaded
     }
 
     // Sanitize and fetch POST inputs

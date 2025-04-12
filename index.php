@@ -40,7 +40,7 @@
     <main>
     <?php
                 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-                $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out'];
+                $allowed_pages = ['home', 'demo', 'create-cv', 'template', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv'];
                 if (in_array($page, $allowed_pages)) {
                     
                         include("$page.php");

@@ -42,6 +42,16 @@ $shareLink = $baseURL . $currentPath . '?id=' . urlencode($cvId);
 
 // Sanitize filename
 $cvFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $cv['name']) . '_cv.pdf';
+
+
+function getImagePath($image) {
+    $image_path = '../images/users/';
+    // return $image;
+    if (!empty($image) && file_exists($image_path.$image)) {
+        return $image_path.$image;
+    }
+    return $image_path.'default.jpg'; // Path to your default image
+}
 ?>
 
 <!DOCTYPE html>
@@ -207,12 +217,7 @@ $cvFileName = preg_replace('/[^a-zA-Z0-9_-]/', '_', $cv['name']) . '_cv.pdf';
     <div class="cv-container" id="cv-content">
         <div id="container">
             <div id="left-div">
-                <?php if (!empty($cv['image']) && $cv['image'] !== 'default-image.jpg'): ?>
-                    <img src="../images/users/<?php echo htmlspecialchars($cv['image']); ?>" alt="Profile" class="profile-image">
-                <?php else: ?>
-                    <div class="profile-image-placeholder"></div>
-                <?php endif; ?>
-
+            <div class="profile-image-placeholder" style="<?php echo !empty($cv['image']) ? 'background-image: url(' . htmlspecialchars(getImagePath($cv['image'])) . '); background-size: cover; background-position: center;' : ''; ?>"></div>
                 <div id="left-middle-div">
                     <h2 class="name"><?php echo htmlspecialchars($cv['name']); ?></h2>
                     <p><i class="bx bx-home left-logo"></i> <?php echo htmlspecialchars($cv['address']); ?></p>

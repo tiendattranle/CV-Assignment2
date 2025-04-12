@@ -6,6 +6,7 @@ include_once("../login_db.php");
 $query = mysqli_query($conn, "SELECT * FROM cv_info WHERE username = '$_SESSION[username]'");
 $data = mysqli_fetch_array($query);
 mysqli_close($conn);
+
 ?>
 
 <!DOCTYPE html>
