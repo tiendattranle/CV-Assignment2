@@ -7,6 +7,7 @@ CREATE TABLE IF NOT EXISTS login (
   username VARCHAR(20) UNIQUE NOT NULL,
   email VARCHAR(50) NOT NULL,
   password VARCHAR(255) NOT NULL,
+  role ENUM('user', 'admin') DEFAULT 'user' NOT NULL, -- Added role column
   PRIMARY KEY (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -17,6 +18,8 @@ CREATE TABLE IF NOT EXISTS login (
 -- (3, 'rony', 'mahmudrony95@gmail.com', '105500');
 -- Table structure for table cv_info
 
+INSERT INTO login (username, email, password, role) 
+VALUES ('admin', 'admin@example.com', 'admin123', 'admin');
 
 CREATE TABLE IF NOT EXISTS cv_info (
   id INT(11) NOT NULL AUTO_INCREMENT,

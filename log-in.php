@@ -18,25 +18,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = trim($_POST["password"]);
 
     // Use prepared statement
-    $stmt = $conn->prepare("SELECT password FROM login WHERE username = ?");
+    $stmt = $conn->prepare("SELECT password, role FROM login WHERE username = ?");
     $stmt->bind_param("s", $username);
     $stmt->execute();
     $stmt->store_result();
 
     // Check if user exists
     if ($stmt->num_rows === 1) {
-        $stmt->bind_result($hashedPassword);
+        $stmt->bind_result($hashedPassword, $role);
         $stmt->fetch();
 
         // Verify password
         if (password_verify($password, $hashedPassword)) {
             $_SESSION['username'] = $username;
+            $_SESSION['role'] = $role; // Store the role in the session
+
             $stmt->close();
             $conn->close();
-            header("Location: ?page=home");
+
+            // Redirect based on role
+            if ($role === 'admin') {
+                header("Location: ?page=admin");
+            } else {
+                header("Location: ?page=home");
+            }
             exit();
         }
     }
+
+
 
     // If login fails
     $_SESSION['errorMessage'] = "Invalid username or password. Please try again.";
@@ -55,7 +65,7 @@ if (isset($_SESSION['errorMessage'])) {
 <div class="log-in-container">
     <form action="" method="post" class="login-form">
         <div class="login-box">
-            <img style="width: 30%; margin-bottom: auto; " src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" alt="Avatar">
+            <img style="width: 30%; margin-bottom: auto;" src="https://cdn-icons-png.flaticon.com/512/1999/1999625.png" alt="Avatar">
             <h1>Welcome Back Babyboo</h1>
 
             <?php if (!empty($errorMessage)): ?>

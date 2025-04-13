@@ -3,9 +3,12 @@ $host = "localhost";  // XAMPP default
 $user = "root";       // Default user in XAMPP (no password by default)
 $password = "";       // No password in default XAMPP setup
 $database = "cv"; // Your database name
+//$port = 3307; // Default MySQL port
 
 // Create connection
-$conn = new mysqli($host, $user, $password, $database);
+//$conn = new mysqli($host, $user, $password, $database, $port);
+$conn = new mysqli($host, $user, $password, $database, $port);
+
 
 // Check connection
 if ($conn->connect_error) {

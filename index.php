@@ -42,7 +42,7 @@
     <main>
         <?php
             $page = isset($_GET['page']) ? $_GET['page'] : 'home';
-            $allowed_pages = ['home', 'my-cv', 'create-cv', 'template', 'demo', 'view', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv'];
+            $allowed_pages = ['home', 'my-cv', 'create-cv', 'template', 'demo', 'view', 'contact', 'log-in', 'sign-up', 'sign-out', 'update-cv', 'admin'];
             if (in_array($page, $allowed_pages)) {
                 if ($page == 'sign-out') {
                     session_destroy();
