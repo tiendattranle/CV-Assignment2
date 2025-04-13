@@ -1,5 +1,7 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 
 // Check if the user is an admin
 if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
@@ -10,29 +12,16 @@ if (!isset($_SESSION['username']) || $_SESSION['role'] !== 'admin') {
 include_once("config.php");
 
 // Fetch users and CVs from the database
-$usersQuery = "SELECT id, username, email FROM users";
+$usersQuery = "SELECT id, username, email FROM login"; // Updated to use 'login' table
 $usersResult = mysqli_query($conn, $usersQuery);
 
 $cvsQuery = "SELECT id, name, username, template FROM cv_info";
 $cvsResult = mysqli_query($conn, $cvsQuery);
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel</title>
+
+
     <link rel="stylesheet" href="css/admin.css">
-</head>
-<body>
-    <header>
-        <h1>Admin Panel</h1>
-        <nav>
-            <a href="?page=home">Home</a>
-            <a href="?page=sign-out">Log Out</a>
-        </nav>
-    </header>
-    <main>
+
         <section>
             <h2>Manage Users</h2>
             <table>
@@ -85,9 +74,4 @@ $cvsResult = mysqli_query($conn, $cvsQuery);
                 </tbody>
             </table>
         </section>
-    </main>
-    <footer>
-        <p>© 2025 Admin Panel. All rights reserved.</p>
-    </footer>
-</body>
-</html>
+
