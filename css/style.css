@@ -24,6 +24,7 @@ main {
     background: #c0ab8c;
     padding: 2.2vw;
     color: white;
+    box-shadow: #333 1px;
 }
 
 .logo {
