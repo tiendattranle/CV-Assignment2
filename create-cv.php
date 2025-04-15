@@ -2,14 +2,16 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
 <?php
     // Check if form is submitted
+    include_once("config.php");
     if (!isset($_SESSION['username'])) {
         $_SESSION['successMessage'] = "Please log in to access this page.";
         header("Location: ?page=log-in");
         exit();
     }
+    $username = $_SESSION['username'];
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        include_once("config.php");
-        $username = $_SESSION['username'];
+        
+        
         // Handle file upload
         if(isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
             $target_dir = "images/users/";
@@ -100,13 +102,28 @@
             exit();
         }
     }
+
+    $sql = "SELECT COUNT(*) as cv_count FROM cv_info WHERE username = ?";
+    $stmt = mysqli_prepare($conn, $sql);
+    mysqli_stmt_bind_param($stmt, 's', $username);
+    mysqli_stmt_execute($stmt);
+    $result = mysqli_stmt_get_result($stmt);
+    $cv_count = mysqli_fetch_assoc($result)['cv_count'];
+    mysqli_stmt_close($stmt);
+    
+    // Check if user has reached CV limit
+    if ($cv_count >= 3) {
+        $_SESSION['errorMessage'] = "You have reached the limit of 3 CVs. Please delete or modify an existing CV to create a new one.";
+        header("Location: index.php?page=my-cv");
+        exit();
+    }
 ?>
 <div class="container">
     <!-- Left Side: Form -->
     <div class="form-container">
         
         <h2>Enter Your Details</h2>
-        <form id="resumeForm" action="preview.php" method="POST" enctype="multipart/form-data">
+        <form id="resumeForm" action="index.php?page=create-cv" method="POST" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="templateSelector">Choose Template:</label>
                 <select name="template" id="templateSelector" required>
