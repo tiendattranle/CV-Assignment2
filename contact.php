@@ -3,7 +3,7 @@
             <h1>Contact Us</h1>
             <p>We would love to hear from you! Fill out the form below and we'll get back to you as soon as possible.</p>
             <!-- Google Map Section -->
-    <div class="flex-container" style="display: flex; flex-wrap: wrap; gap: 2vw; justify-content: center; align-items: flex-start;">
+    <div class="flex-container" style="display: flex; flex-wrap: wrap; gap: 5vw; justify-content: center; align-items: flex-start;">
         <div class="map-container" style="flex: 1; min-width: 300px; max-width: 600px;">
             <h4>Find Us Here</h4>
             <iframe 
