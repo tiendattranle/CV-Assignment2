@@ -2,6 +2,7 @@
 // Enable error reporting for debugging
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
+session_start();
 // Include the database connection file
 include_once("config.php");
 
@@ -42,4 +43,4 @@ if (!$ownershipResult || mysqli_num_rows($ownershipResult) === 0) {
 $deleteQuery = "DELETE FROM cv_info WHERE id = '$cvId'";
 $deleteResult = mysqli_query($conn, $deleteQuery);
 
-header("Location: ?page=demo");
+header("Location: index.php?page=my-cv");
